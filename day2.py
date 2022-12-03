@@ -1,3 +1,43 @@
+SCORETABLE = {
+"A X": 4,    # DRAW PLUS ROCK        =   3 + 1
+"A Y": 8,    # WIN  PLUS PAPER       =   6 + 2
+"A Z": 3,    # LOSS PLUS SCISSORS    =   0 + 3
+"B X": 1,    # LOSS PLUS ROCK        =   0 + 1
+"B Y": 5,    # DRAW PLUS PAPER       =   3 + 2
+"B Z": 9,    # WIN  PLUS SCISSORS    =   6 + 3
+"C X": 7,    # WIN  PLUS ROCK        =   6 + 1
+"C Y": 2,    # LOSS PLUS PAPER       =   0 + 2
+"C Z": 6     # DRAW PLUS SCISSORS    =   3 + 3
+}
+
+SCORETABLE_2 = {
+"A X": 3,    # LOSS NEEDS SCISSORS   =   0 + 3
+"A Y": 4,    # DRAW NEEDS ROCK       =   3 + 1
+"A Z": 8,    # WIN  NEEDS PAPER      =   6 + 2
+"B X": 1,    # LOSS NEEDS ROCK       =   0 + 1
+"B Y": 5,    # DRAW NEEDS PAPER      =   3 + 2
+"B Z": 9,    # WIN  NEEDS SCISSORS   =   6 + 3
+"C X": 2,    # LOSS NEEDS PAPER      =   0 + 2
+"C Y": 6,    # DRAW NEEDS SCISSORS   =   3 + 3
+"C Z": 7     # WIN  NEEDS ROCK       =   6 + 1
+}
+
+
+def rps_strat1(strategy: str) -> int:
+    score = 0
+    for line in strategy.splitlines():
+        score = score + SCORETABLE[line]
+    return score
+
+def rps_strat2(strategy: str) -> int:
+    score = 0
+    for line in strategy.splitlines():
+        score = score + SCORETABLE_2[line]
+    return score
+
+def main():
+    print(rps_strat2(STRATEGY))
+
 STRATEGY = """B Y
 A X
 B Y
@@ -2499,24 +2539,5 @@ C X
 A X
 B Z"""
 
-SCORETABLE = {
-"AX": 4,    # DRAW PLUS ROCK        =   3 + 1
-"AY": 8,    # WIN  PLUS PAPER       =   6 + 2
-"AZ": 3,    # LOSS PLUS SCISSORS    =   0 + 3
-"BX": 1,    # LOSS PLUS ROCK        =   0 + 1
-"BY": 5,    # DRAW PLUS PAPER       =   3 + 2
-"BZ": 9,    # WIN  PLUS SCISSORS    =   6 + 3
-"CX": 7,    # WIN  PLUS ROCK        =   6 + 1
-"CY": 2,    # LOSS PLUS PAPER       =   0 + 2
-"CZ": 6     # DRAW PLUS SCISSORS    =   3 + 3
-}
-
-
-def rps_score(strategy: str) -> int:
-    score = 0
-    for line in strategy.splitlines():
-        strat = line[0] + line[2]
-        score = score + SCORETABLE[strat]
-    return score
-
-print(rps_score(STRATEGY))
+if __name__ == "__main__":
+    main()
