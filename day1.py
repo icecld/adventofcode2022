@@ -1,3 +1,32 @@
+def most_calories(input_list: str) -> int:
+    current_total = 0
+    max = 0
+    for line in input_list.splitlines():
+        if line != "":
+            current_total = current_total + int(line)
+        else:
+            if current_total > max:
+                max = current_total
+            current_total = 0
+    return max
+
+def top3_calories(input_list: str) -> int:
+    current_total = 0
+    max3 = [0, 0, 0]
+    for line in input_list.splitlines():
+        if line != "":
+            current_total = current_total + int(line)
+        else:
+            for i, x in enumerate(max3):
+                if current_total >= x:
+                    max3.insert(i, current_total)
+                    del max3[3]
+                    break
+            current_total = 0
+    return sum(max3)
+
+def main():
+    print(top3_calories(ELVES_LIST))
 
 ELVES_LIST = """5324
 5176
@@ -2255,33 +2284,5 @@ ELVES_LIST = """5324
 1457
 44690"""
 
-def most_calories(input_list: str) -> int:
-    current_total = 0
-    max = 0
-    for line in input_list.splitlines():
-        if line != "":
-            current_total = current_total + int(line)
-        else:
-            if current_total > max:
-                max = current_total
-            current_total = 0
-    return max
-
-def top3_calories(input_list: str) -> int:
-    current_total = 0
-    max3 = [0, 0, 0]
-    for line in input_list.splitlines():
-        if line != "":
-            current_total = current_total + int(line)
-        else:
-            for i, x in enumerate(max3):
-                if current_total >= x:
-                    max3.insert(i, current_total)
-                    del max3[3]
-                    break
-            current_total = 0
-    return sum(max3)
-
-
-
-print(top3_calories(ELVES_LIST))
+if __name__ == "__main__":
+    main()
