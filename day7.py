@@ -33,6 +33,25 @@ class dir():
         for d_name in self.child_dirs:
             total += self.child_dirs[d_name].sum_dirs_leq_size(n)
         return total
+    
+    
+    #THIS BIT DOESNT WORK YET
+    
+    def smallest_dir_leq_size(self, n: int) -> str:
+        self.smallest_dir_leq_size_helper(n, (70000000, ""))
+
+    def smallest_dir_leq_size_helper(self, n: int, prev_best) -> str:
+        if self.size >= n:
+            if self.size < best[0]:
+                best = (self.size, self.name)
+            else:
+                best = prev_best
+
+        for d_name in self.child_dirs:
+            best_child = self.child_dirs[d_name].smallest_dir_leq_size_helper(n)
+            if best_child[0] < best[0]:
+                best = best_child
+        return best
 
 
 def parse_filesystem(input: str) -> dir:
