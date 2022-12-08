@@ -18,6 +18,8 @@ class dir():
         self.size += f.size        
     
     def update_sizes(self):
+        # After the tree is built, run back through and set
+        # all the size values to account for their children
         if self.child_dirs == {}:
             return self.size
         else:
@@ -27,6 +29,7 @@ class dir():
             return self.size
     
     def sum_dirs_leq_size(self, n: int) -> int:
+        # Recursively sum all sizes in the tree less than eq to n
         total = 0
         if self.size <= n:
             total += self.size
@@ -34,27 +37,26 @@ class dir():
             total += self.child_dirs[d_name].sum_dirs_leq_size(n)
         return total
     
-    
-    #THIS BIT DOESNT WORK YET
-    
-    def smallest_dir_leq_size(self, n: int) -> str:
-        self.smallest_dir_leq_size_helper(n, (70000000, ""))
-
-    def smallest_dir_leq_size_helper(self, n: int, prev_best) -> str:
-        if self.size >= n:
-            if self.size < best[0]:
-                best = (self.size, self.name)
-            else:
-                best = prev_best
-
+    def list_all_sizes(self, current_list: list = []) -> list:
+        # Recursively list all sizes in the tree
         for d_name in self.child_dirs:
-            best_child = self.child_dirs[d_name].smallest_dir_leq_size_helper(n)
-            if best_child[0] < best[0]:
-                best = best_child
-        return best
+            current_list = self.child_dirs[d_name].list_all_sizes(current_list)
+        current_list.append(self.size)
+        return current_list
+    
+    def smallest_above_n(self, n: int) -> int:
+        # Find smallest size value in tree greater than n
+        sizes = self.list_all_sizes()
+        closest = 70000000
+        for x in sizes:
+            if x >= n and x <= closest:
+                closest = x
+        return closest
 
 
 def parse_filesystem(input: str) -> dir:
+    # work out whats what
+
     filesystem = dir("/")
     parent_dir_path = []
     current_dir = None
@@ -81,11 +83,10 @@ def parse_filesystem(input: str) -> dir:
     return filesystem
     
 
-
 def main():
     fs = parse_filesystem(INPUT)
     print(fs.sum_dirs_leq_size(100000))
-    print(fs.smallest_dir_leq_size(30000000))
+    print(fs.smallest_above_n(30_000_000 - (70_000_000 - fs.size)))
 
 INPUT = """$ cd /
 $ ls
